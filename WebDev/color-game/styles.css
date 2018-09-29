@@ -1,0 +1,14 @@
+body {
+
+}
+
+.square {
+    width: 30%;
+    margin: 1.66%;
+    padding-bottom: 30%;
+    background-color: bisque;
+    float: left;
+    border-radius: 4em;
+    
+
+}
