@@ -10,11 +10,13 @@ const getRange = () => {
 
 
 const getGuess = () => {
+//get user input for a guess
     const userInput = prompt("Pick a number between 0 and " + this.range);
     const guess =Number(userInput);
+//compare the input to a secret number - too low, too high, or the match!
     if (guess == this.secretNum) { 
         alert ("You guessed it!!");
-        return this.availGuesses =0 ;
+        return this.availGuesses = -1 ;
     } 
     else if (guess > this.secretNum) {
         alert ("Wrong!! Too high!");
@@ -25,18 +27,15 @@ const getGuess = () => {
     console.log("guess in the function:", guess, "the secret num ", this.secretNum); 
 };
 
-const verifyGuess = () => {
-
-}
-
 const Game = () => {
     getRange();
     secretNumber();
-    
+    //count the attempts
     for (availGuesses = 10; availGuesses > 0; availGuesses--) {
         getGuess();
         console.log("the avail guesses INSIDE: ", availGuesses);
     }
+   //win or lose alert
     if (availGuesses < 0) {
         alert("You have won!")
     }
@@ -47,8 +46,8 @@ const Game = () => {
 
 Game();
 
-//get user input for a guess
-//compare the input to a secret number - too low, too high, or the match!
-//count the attempts
-//win or lose alert
+
+
+
+
 
