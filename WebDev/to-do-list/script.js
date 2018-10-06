@@ -58,15 +58,16 @@ button.addEventListener("click", ()=> {
 var ToDOlis = document.querySelectorAll(".todos");
 console.log("what is firstToDOli: " , ToDOlis); 
 
-ToDOlis.forEach( (todo) => {
+ToDOlis.forEach((todo) => {
     todo.addEventListener("mouseover", ()=> {
-        todo.style.color = "darkgreen"
-    })
+        todo.classList.add("selected");
+    });
+    todo.addEventListener("mouseout", ()=> {
+        todo.classList.remove("selected");
+    });
+    todo.addEventListener("click", ()=> {
+        todo.classList.toggle("done");
+    });
 }); 
 
-ToDOlis.forEach( (todo) => {
-    todo.addEventListener("mouseout", ()=> {
-        todo.style.color = "black"
-    })
-}); 
 

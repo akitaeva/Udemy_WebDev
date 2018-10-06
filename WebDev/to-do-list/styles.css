@@ -1,0 +1,9 @@
+.done {
+    text-decoration: line-through;
+    /* color: slategray; */
+    opacity: 40%;
+}
+
+.selected {
+    color: teal;
+}
