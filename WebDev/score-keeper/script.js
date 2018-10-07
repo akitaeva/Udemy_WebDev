@@ -1,12 +1,12 @@
 let p1score = 0;
-let p1display = document.querySelector("#p1display");
 let p2score = 0;
+let p1display = document.querySelector("#p1display");
 let p2display = document.querySelector("#p2display");
 const buttonP1 = document.querySelector("#player1");
 const buttonP2 = document.querySelector("#player2");
 const buttonRe = document.querySelector("#reset");
 const scoreInput = document.getElementById("score") 
-const scoreDisplay = document.getElementById("scoreDisplay").textContent
+let scoreDisplay = 5;
 
 
 buttonP1.addEventListener("click", ()=> {
@@ -15,7 +15,8 @@ buttonP1.addEventListener("click", ()=> {
       p1score++; 
       p1display.textContent = p1score;
   } else {
-      p1display.classList.toggle("winner");
+      p1display.classList.add("winner");
+      p2display.classList.remove("winner");
       alert("Player 1 wins!")
       p1score =0;
       p1display.textContent = p1score;
@@ -31,7 +32,8 @@ buttonP2.addEventListener("click", ()=> {
        p2display.textContent = p2score;
    } else 
    {
-      p2display.classList.toggle("winner");
+      p2display.classList.add("winner");
+      p1display.classList.remove("winner");
       alert("Player 2 wins!")
       p1score =0;
       p1display.textContent = p1score;
@@ -50,5 +52,7 @@ buttonRe.addEventListener("click", ()=> {
 })
 
 scoreInput.addEventListener("change", ()=>{
-    document.querySelector("#scoreDisplay").textContent = scoreInput.value;
+    document.querySelector("#scoreDisplay").textContent = scoreInput.value; //or this.scoreInput.value
+    scoreDisplay = scoreInput.value;                                        //or this.scoreInput.value
+    
 })
