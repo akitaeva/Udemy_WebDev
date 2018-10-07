@@ -52,3 +52,21 @@ button.addEventListener("click", ()=> {
         document.body.style.background = "pink"
     }
 })
+
+//==========================================================
+
+var ToDOlis = document.querySelectorAll(".todos");
+console.log("what is firstToDOli: " , ToDOlis); 
+
+ToDOlis.forEach( (todo) => {
+    todo.addEventListener("mouseover", ()=> {
+        todo.style.color = "darkgreen"
+    })
+}); 
+
+ToDOlis.forEach( (todo) => {
+    todo.addEventListener("mouseout", ()=> {
+        todo.style.color = "black"
+    })
+}); 
+
