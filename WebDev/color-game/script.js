@@ -1,17 +1,14 @@
-let colors = [
-    "rgb(0, 176, 214)",
-    "rgb(22, 102, 90)",
-    "rgb(160, 36, 34)",
-    "rgb(34, 15, 180)",
-    "rgb(42, 76, 94)",
-    "rgb(164, 116, 84)",
-]
+
 
 let pickedColorDisplay = document.getElementById("pickedColor")
 const messageDisplay = document.querySelector("#message");
 const squares = document.querySelectorAll(".square");
 
-const setField = (colors) => {
+
+const setField = () => {
+   let colors = fillInColors(6);
+   let pickedColor = colors[Math.floor(Math.random() * colors.length)];
+   console.log("colors here: ", colors)
     //add intial colors to sqaures
    squares.forEach((oneSquare, i) => {
     oneSquare.style.backgroundColor = colors[i]
@@ -38,10 +35,24 @@ const changColors = () => {
     })
 }
 
-const pickColor = () => {
-   return colors[Math.floor(Math.random() * colors.length)]
+const fillInColors = (num) => {
+   let arr = [];
+   for (let i=0; i<num; i++) {
+        arr.push(getRandomColor());
+        console.log(arr);
+    }
+    return arr;
 }
-let pickedColor = pickColor();
 
-setField(colors);
+const getRandomColor = () => {
+   let red = Math.floor(Math.random() * 256);
+   let green = Math.floor(Math.random() * 256);
+   let blue = Math.floor(Math.random() * 256)
+   console.log("rgb("+red+", "+green+", "+blue+")");
+   return ("rgb("+red+", "+green+", "+blue+")");
+   // "rgb(0, 176, 214)",
+   
+}
+
+setField();
 pickedColorDisplay.textContent = pickedColor;
