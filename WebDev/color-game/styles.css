@@ -1,14 +1,21 @@
 body {
-
+    background-color: #2b3c53;
 }
 
+h1, h2, span {
+    color: aliceblue;
+    text-align: center;
+}
 .square {
     width: 30%;
     margin: 1.66%;
     padding-bottom: 30%;
     background-color: bisque;
     float: left;
-    border-radius: 4em;
-    
+    border-radius: 2em; 
+}
 
+#playfield {
+    max-width: 55%;
+    margin: auto;
 }
