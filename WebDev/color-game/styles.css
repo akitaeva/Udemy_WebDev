@@ -34,6 +34,7 @@ button {
 button:hover {
     color: aliceblue;
     background: #577ea0;
+    font-size: 1.02em;
 }
 
 .square {
@@ -67,6 +68,7 @@ button:hover {
 #stripe {
     background-color: whitesmoke;
     text-align: center;
+    margin: 0 -20px;    
     padding: 0 200px;
     height: 30px;
     display: flex;
