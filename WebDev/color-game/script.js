@@ -3,19 +3,23 @@ const messageDisplay = document.querySelector("#message");
 const squares = document.querySelectorAll(".square");
 const heading = document.querySelector("#heading");
 const reset = document.querySelector("#reset");
-const level = document.querySelector("#level");
-
+let level = "hard" 
+const easyBtn = document.querySelector("#easyBtn");
 
 const setField = () => {
    //getting array of colors according to the difficulty level 
-   let colors = fillInColors(6);
+   messageDisplay.textContent = "Pick a square to match the color";
+   let sizeOfField = setLevel(level);
+   console.log("sizeOfField ******** ", sizeOfField)
+   let colors = fillInColors(sizeOfField);
    //chosing the color to be guessed
    let pickedColor = colors[Math.floor(Math.random() * colors.length)];
    console.log("pickedColor in setField ", pickedColor)
    //displaying the color to guess in the HTML doc
    pickedColorDisplay.textContent = pickedColor;
    //changing the heading background to default
-   heading.style.backgroundColor = "#2b3c53";
+   heading.style.backgroundColor = "#577ea0";
+   reset.textContent = "New Colors";
    //add the colors to sqaures
    squares.forEach((oneSquare, i) => {
     oneSquare.style.backgroundColor = colors[i]
@@ -32,7 +36,8 @@ const setField = () => {
              messageDisplay.textContent = "Correct!";
              changeColors();
              heading.style.backgroundColor = pickedColor;
-             console.log("heading background ", heading.backgroundColor)
+             reset.textContent = "Play Again?"
+             console.log("heading background ", heading.style.backgroundColor)
            }  
           else 
            {
@@ -48,7 +53,6 @@ const setField = () => {
 
 const changeColors = () => {
     squares.forEach((square) =>{
-    console.log("are you here? ", pickedColor)
     square.style.backgroundColor = pickedColor.textContent;
     })
 }
@@ -66,22 +70,47 @@ const getRandomColor = () => {
    let green = Math.floor(Math.random() * 256);
    let blue = Math.floor(Math.random() * 256)
    //what is returned ?:
-   console.log("what is returned in getRandomColor: rgb("+red+", "+green+", "+blue+")");
+    //    console.log("what is returned in getRandomColor: rgb("+red+", "+green+", "+blue+")");
    return ("rgb("+red+", "+green+", "+blue+")");
 
    
 }
 
+const setLevel = (level) => {
+    if (level === "hard") {
+        return num = 6;
+    }
+    else if (level === "easy") {
+        return num = 3;
+    }
+
+}
+
 setField();
 
 reset.addEventListener("click", ()=> {
-    if (prompt("Would you like to start a new game? ")) {
         setField();
+})
+
+
+easyBtn.addEventListener("click", ()=> {
+   level = "easy"; 
+   easyBtn.classList.toggle("selected");
+   hardBtn.classList.toggle("selected");
+   for (i=3; i<squares.length; i++) {
+       squares[i].classList.add("hidden");
+   }
+   setField();
+   return level; 
+})
+
+hardBtn.addEventListener("click", ()=> {
+    level = "hard"; 
+    easyBtn.classList.toggle("selected");
+    hardBtn.classList.toggle("selected");
+    for (i=0; i<squares.length; i++) {
+        squares[i].classList.remove("hidden");
     }
-  
-})
-
-level.addEventListener("click", ()=> {
-
-
-})
+    setField();
+    return level; 
+ })

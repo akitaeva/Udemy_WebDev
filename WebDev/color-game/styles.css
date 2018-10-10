@@ -1,35 +1,85 @@
 body {
     background-color: #2b3c53;
+    margin: 0;
+    font-family: "Montserrat", "Avenir";
 }
 
 h1, h2 {
     color: aliceblue;
+    font-weight: 400;
+    text-transform: uppercase;
     text-align: center;
+    line-height: 0.9;
+
 }
+
+h2 span {
+   size: 2em;
+}
+
+button {
+    border: none;
+    background: none;
+    text-transform: uppercase;
+    height: 100%;
+    font-weight: 700;
+    color: #577ea0;
+    font-size: inherit;
+    transition: all 400ms;
+    -webkit-transition:  all 400ms;
+    -moz-transition:  all 400ms;
+    outline: none;
+}
+
+button:hover {
+    color: aliceblue;
+    background: #577ea0;
+}
+
 .square {
     width: 29%;
     margin: 1.66%;
     padding-bottom: 30%;
-    background-color: bisque;
     float: left;
-    border: 2px solid slategray;
     border-radius: 1.5em; 
+    box-shadow: 2px 1px 35px -3px rgba(0,0,0,0.83);
+    transition: background 0.5s;
+    -webkit-transition: background 0.5s;
+    -moz-transition: background 0.5s;
+}
+
+.selected {
+    color: aliceblue;
+    background: #577ea0;
+}
+
+.hidden {
+    display: none;
 }
 
 #heading {
     margin: auto -50px auto -50px;
     padding: 5px 0 15px;
-    border: 2px solid slategray;
+    background-color: #577ea0;
+    
 }
 
 #stripe {
     background-color: whitesmoke;
     text-align: center;
-    margin: auto -50px auto -50px;
-    border-bottom: 2px solid slategray;
+    padding: 0 200px;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    color: #577ea0;
+}
+
+#message {
+    font-size: inherit;
+    padding: 4px;
 }
 
 #playfield {
     max-width: 55%;
-    margin: auto;
+    margin: 35px auto 0px;
 }
