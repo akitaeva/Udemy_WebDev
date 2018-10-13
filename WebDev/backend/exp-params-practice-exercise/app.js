@@ -6,7 +6,7 @@ app.get("/", (req, res) => {
   })
 
 app.get("/speak/:animal", (req, res) => {  //animal talk routes 
-    let theAnimal = req.params.animal
+    let theAnimal = req.params.animal.toLowerCase();
     const sounds = {
         pig: "Oink",
         dog: 'Woof woof',
@@ -14,7 +14,7 @@ app.get("/speak/:animal", (req, res) => {  //animal talk routes
         cat: "I hate humans",
         fish: "..."
     }
-    let sound = sounds.theAnimal
+    let sound = sounds[theAnimal];
     res.send("The " + theAnimal + " says " + sound + "!")
   })
 
@@ -22,7 +22,10 @@ app.get("/repeat/:what/:times", (req, res) => {  //repeat on screen routes
     
     let reps = Number(req.params.times)
     let msg = req.params.what;
-    let display = msg*reps
+    let display = "";
+    for (i=0; i<reps; i++) {
+        display = msg + " " + display
+    }
     console.log("$$$$HERE req.params.what*reps: ", reps)
     res.send(display);
 
