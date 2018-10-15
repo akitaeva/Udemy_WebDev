@@ -6,9 +6,8 @@ const generator = () => {
     console.log(("       welcome to my shop").toUpperCase());
     console.log("===========================================");
     for (i=0; i<10; i++) {
-        let randomProduct = faker.commerce.productName(); // generate product names
-        let randomPrice = faker.commerce.price(); // generate product prices
-        console.log(randomProduct +" - $"+ randomPrice);
+        // generate products and prices
+        console.log(faker.commerce.productName() +" - $"+ faker.commerce.price());
     }
 
 

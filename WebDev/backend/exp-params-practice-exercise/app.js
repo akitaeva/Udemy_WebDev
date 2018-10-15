@@ -24,7 +24,7 @@ app.get("/repeat/:what/:times", (req, res) => {  //repeat on screen routes
     let msg = req.params.what;
     let display = "";
     for (i=0; i<reps; i++) {
-        display = msg + " " + display
+        display +=msg + " "
     }
     console.log("$$$$HERE req.params.what*reps: ", reps)
     res.send(display);
