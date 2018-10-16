@@ -1,0 +1,8 @@
+body {
+  background-color: rgb(212, 248, 145);
+}
+
+li h3, p {
+    display: inline;
+}
+
