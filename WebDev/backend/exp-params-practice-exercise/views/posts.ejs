@@ -1,3 +1,7 @@
 <h1>the POSTS page</h1>
 
-<%= thePosts %>
+<% thePosts.forEach ( (p) => { %>
+ <li> 
+    <%= p.title %> - <em> <%= p.author %> </em> 
+ </li>
+<% }) %>
