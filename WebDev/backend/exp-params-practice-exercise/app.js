@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 
 app.get("/", (req, res) => {
-    res.send("Hi there, welocme to my assignment!")
+    res.render("home.ejs")
   })
 
 app.get("/speak/:animal", (req, res) => {  //animal talk routes 
@@ -29,7 +29,16 @@ app.get("/repeat/:what/:times", (req, res) => {  //repeat on screen routes
     console.log("$$$$HERE req.params.what*reps: ", reps)
     res.send(display);
 
+})
 
+app.get("/posts", (req, res) => { 
+    let posts = [
+        {title: "what in the world?", author: "Suzie"},
+        {title: "layout trends", author: "Charlie"},
+        {title: "best local craft beers", author: "Magnus"}
+    ];
+
+    res.render("posts.ejs", {thePosts: posts})
 
 })
   
