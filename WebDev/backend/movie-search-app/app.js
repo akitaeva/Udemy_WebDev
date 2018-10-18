@@ -7,7 +7,12 @@ app.set('view engine', 'ejs');
 
 
 app.get("/results", function(req, res) {
-    res.send("It works!")
+    request("http://www.omdbapi.com/?s=idaho&apikey=thewdb", (error, response, body) => {
+        if (!error && response.statusCode == 200) {
+            var results = JSON.parse(body);
+            res.send(results["Search"][0]);
+        }
+    })
 })
 
 
