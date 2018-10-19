@@ -6,11 +6,13 @@ const request = require("request")
 app.set('view engine', 'ejs');
 
 app.get("/", function(req, res) {
-    res.render("search")
+    res.render("search");
 })    
 
 app.get("/results", function(req, res) {
-    request("http://www.omdbapi.com/?s=idaho&apikey=thewdb", (error, response, body) => {
+    let searchTerm = req.query.search;
+    let url = "http://www.omdbapi.com/?s=" + searchTerm + "&apikey=thewdb"
+    request(url, (error, response, body) => {
         if (!error && response.statusCode == 200) {
             var data = JSON.parse(body);
             res.render("results", {data: data});
