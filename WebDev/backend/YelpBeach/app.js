@@ -1,7 +1,19 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser")
+const mongoose = require("mongoose");
 
+
+
+mongoose.connect("mongodb://localhost/yelp-beach");
+
+
+const beachSchema = new mongoose.Schema ({
+    name: String,
+    image: String,
+})
+
+const Beach = mongoose.model("Beach", beachSchema);
 
 beaches = [
     {name: "Glass Beach", image: "https://i.guim.co.uk/img/media/475ba49e737ba71ee24db8b1420bd3467e1db4ae/0_0_6000_3599/master/6000.jpg?width=860&quality=85&auto=format&fit=max&s=1941a66237c500eea42e97d9a4a28eec"},
@@ -24,7 +36,16 @@ app.get("/", function(req, res) {
 
 
 app.get("/beaches", (req,res) =>  {
-    res.render("beaches", { theBeaches : beaches})
+    //get all beaches from DB
+    Beach.find({}, (err, beaches) => {
+        if(err) {
+            console.log(err);
+        } else {
+            res.render("beaches", { theBeaches : beaches})
+        }
+
+    });
+
 })  
 
 app.post("/beaches", (req,res) => {
@@ -38,6 +59,6 @@ app.get("/beaches/new", (req,res) => {
 })
 
 //start the server
-app.listen(3000, ()=> {
+app.listen(3000, () => {
     console.log("The Yelp App is listening on port 3000")
 })
