@@ -11,6 +11,7 @@ mongoose.connect("mongodb://localhost/yelp-beach", { useNewUrlParser: true });
 const beachSchema = new mongoose.Schema ({
     name: String,
     image: String,
+    descriptionc: String,
 })
 
 //Compile schema into the model
@@ -41,7 +42,7 @@ app.get("/beaches", (req,res) =>  {
 
 app.post("/beaches", (req,res) => {
     ///Taking the entry data from the form
-    let newBeach = { name: req.body.name, image: req.body.image }
+    let newBeach = { name: req.body.name, image: req.body.image, description: req.body.description, }
     //Create a new beach entry and save to the DB
     Beach.create(newBeach, (err, newlyCreated) => {
       if(err) {
@@ -55,6 +56,10 @@ app.post("/beaches", (req,res) => {
 
 app.get("/beaches/new", (req,res) => {
     res.render("addNew.ejs");
+})
+
+app.get("/beaches/:id", (req,res) => {
+    res.render("beachDetails.ejs");
 })
 
 //start the server
