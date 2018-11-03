@@ -58,6 +58,7 @@ app.get("/beaches/new", (req,res) => {
     res.render("addNew.ejs");
 })
 
+//SHOW - details about a specific beach - find by id and render the template
 app.get("/beaches/:id", (req,res) => {
     res.render("beachDetails.ejs");
 })
