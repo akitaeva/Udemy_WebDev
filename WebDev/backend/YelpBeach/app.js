@@ -11,7 +11,7 @@ mongoose.connect("mongodb://localhost/yelp-beach", { useNewUrlParser: true });
 const beachSchema = new mongoose.Schema ({
     name: String,
     image: String,
-    descriptionc: String,
+    description: String,
 })
 
 //Compile schema into the model
@@ -33,7 +33,7 @@ app.get("/beaches", (req,res) =>  {
         if(err) {
             console.log(err);
         } else {
-            res.render("beaches", { theBeaches : allBeaches})
+            res.render("index", { theBeaches : allBeaches})
         }
 
     });
@@ -60,7 +60,14 @@ app.get("/beaches/new", (req,res) => {
 
 //SHOW - details about a specific beach - find by id and render the template
 app.get("/beaches/:id", (req,res) => {
-    res.render("beachDetails.ejs");
+    Beach.findById(req.params.id, (err, foundBeach)=> {
+       if (err) {
+           console.log(err);
+       } else {
+        res.render("beachDetails", {theBeach: foundBeach});
+       }
+    });
+    
 })
 
 //start the server
