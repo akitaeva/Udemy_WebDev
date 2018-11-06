@@ -1,4 +1,14 @@
 const mongoose = require('mongoose');
+const Beach = require("./../models/beach")
+
+//Drop all the existing beach entries from the the DD
+Beach.remove({}, (err, res) => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log("removed all existing beach entries from the DB")
+    }
+})
 
 //Connect to the DB
 mongoose.connect("mongodb://localhost/yelp-beach", { useNewUrlParser: true });
@@ -17,3 +27,16 @@ const beachesArr = [
       image: "https://i.guim.co.uk/img/media/83ae1626339b85f23e35bb40f86d5dff87d24a24/0_75_2000_1200/master/2000.jpg?width=620&quality=85&auto=format&fit=max&s=5e190e33235e942c18b4cbc0df499aa8"
     },
  ]
+
+Beach.create(beachesArr)
+    .then((result)=>{
+        console.log(`created ${result.length} beach entries`);
+        result.forEach(oneBeach => {
+            console.log('In DB ', oneBeach.name)
+        })
+        mongoose.disconnect();
+            
+        })
+    .catch((err)=>{
+            console.log('Error creating activity collection', err)
+        })
