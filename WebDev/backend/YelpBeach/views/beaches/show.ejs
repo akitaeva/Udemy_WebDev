@@ -1,0 +1,17 @@
+<%include ../partials/header %>
+
+<h3> <%=theBeach.name%></h3>
+
+<img src="<%= theBeach.image %>">
+
+<p><%=theBeach.description%></p>
+
+<%theBeach.comments.forEach( (comment) => { %>
+
+     <p><strong><%=comment.author%></strong></p>
+     <p><%=comment.text%></p>
+
+<% } ) %>
+
+
+<%include ../partials/footer %>
