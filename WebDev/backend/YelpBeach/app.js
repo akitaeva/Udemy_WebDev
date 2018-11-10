@@ -77,8 +77,25 @@ app.get("/beaches/:id/comments/new", (req, res) =>{
             res.render("comments/new", {theBeach: foundBeach});
         }
     })
-
 });
+
+app.post("/beaches/:id/comments", (req, res) =>{ 
+    Beach.findById(req.params.id, function(err, foundBeach) {
+        if (err) {
+            console.log(err);
+        } else  {
+            Comment.create(req.body.comment, (err, comment) =>{ 
+                if (err) {
+                    console.log(err);
+                } else  {
+                    foundBeach.comments.push(comment);
+                    foundBeach.save();
+                    res.redirect("/beaches/" + foundBeach._id);
+                }    
+            })
+           }       
+        })    
+})
 
 //start the server
 app.listen(3000, () => {
