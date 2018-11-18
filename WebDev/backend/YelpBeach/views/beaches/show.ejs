@@ -26,13 +26,13 @@
          <div class="text-right">
            <a class="btn btn-success" href="/beaches/<%= theBeach._id %>/comments/new">Add a Review</a>
          </div>  <!-- end of text-right div-->
-
+         <hr>
          <%theBeach.comments.forEach( (comment) => { %>
             <div class="row">
               <div class="col-md-12">
                 <p><strong><%= comment.author %></strong></p>
-                <span class="pull-right"> X days aggo </span>
-                <p><%= comment.text %></p>
+                <span class="pull-right"> X days ago </span>
+                  <p><%= comment.text %></p>
               </div> 
             </div> <!-- end of row div -->
 
