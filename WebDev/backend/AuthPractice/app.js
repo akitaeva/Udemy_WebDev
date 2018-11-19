@@ -25,6 +25,14 @@ app.use(require("express-session")({
 app.use(passport.initialize());
 app.use(passport.session());
 
+//encoding and decoding data methods for the session
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+//==============================================
+// ROUTES
+//==============================================
 
 //main page route
 app.get("/", (req, res) => {
@@ -37,12 +45,19 @@ app.get("/secret", (req, res) => {
 });
 
 
+// Auth Routes
 
+//show sign up form
+app.get("/register", (req, res) => {
+    res.render("register");
 
+})
 
+//handling user sign up 
+app.post("/register", (req, res) => {
+    res.send("register post route");
 
-
-
+})
 
 
 app.listen(3000, ()=> {
