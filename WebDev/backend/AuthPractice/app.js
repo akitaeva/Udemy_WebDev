@@ -14,6 +14,8 @@ const app         = express();
 
 app.set("view engine", "ejs");
 
+app.use(bodyParser.urlencoded({extended: true}));
+
 //setting up the sessions
 app.use(require("express-session")({
     secret: "ThE SEcrEt YoU aRe KeePing",
@@ -55,9 +57,18 @@ app.get("/register", (req, res) => {
 
 //handling user sign up 
 app.post("/register", (req, res) => {
-    res.send("register post route");
-
-})
+    req.body.username
+    req.body.password
+    User.register(new User({username: req.body.username}), req.body.password, (err, user) => { 
+        if (err) {
+          console.log(err);
+          return res.render("register");
+        }
+        passport.authenticate("local")( (req, res, () => {
+            res.redirect("/secret");
+        }));
+    });
+});
 
 
 app.listen(3000, ()=> {
