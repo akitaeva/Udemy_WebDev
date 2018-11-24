@@ -10,7 +10,7 @@ const express               = require("express"),
 mongoose.connect("mongodb://localhost/auth_demo_app", { useNewUrlParser: true });
 
 
-const app         = express();
+const app = express();
 
 app.set("view engine", "ejs");
 
@@ -44,12 +44,12 @@ app.get("/", (req, res) => {
 });
 
 //restricted route
-app.get("/secret", (req, res) => {
+app.get("/secret", isLoggedIn, (req, res) => {
     res.render("secret");
 });
 
 
-// Auth Routes
+// AUTH ROUTES
 
 //show sign up form
 app.get("/register", (req, res) => {
@@ -85,8 +85,21 @@ app.post("/login", passport.authenticate("local", {
     successRedirect: "/secret",
     failureRedirect: "/login"
 }), (req, res) => {
-
+    console.log("you've made it!")
 });
+
+//login logic
+app.get("/logout", (req, res) => {
+    req.logout();
+    res.rendirect("/", {message: "You've been logged out...Not YET!! =["})
+});
+
+const isLoggedIn = (req, res, next) => {
+    if(req.isAuthenticated()){
+       return next();
+    }
+    res.redirect("/login");
+}
 
 app.listen(3000, ()=> {
     console.log("Server is up and running on port 3000")
