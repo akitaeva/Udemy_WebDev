@@ -1,10 +1,14 @@
 const express = require("express");
-const app = express();
 const bodyParser = require("body-parser")
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"),
+      passport = require("passport"),
+      LocalStrategy = require("passport-local");
 
-const Beach = require("./models/beach");
+const User    = require("./models/user");
+const Beach   = require("./models/beach");
 const Comment = require("./models/comment")
+
+const app = express();
 
 
 //Connect to the DB
@@ -13,6 +17,18 @@ mongoose.connect("mongodb://localhost/yelp-beach", { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
+
+//PASSPORT CONFIGURATION
+app.use(require("express-session")({
+    secret: "Life is the Beach",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.get("/", function(req, res) {
     res.render("landing");
@@ -97,6 +113,20 @@ app.post("/beaches/:id/comments", (req, res) =>{
            }       
         })    
 })
+
+//================================
+//AUTH ROUTES
+//================================
+
+//show register form
+app.get("/register", (req, res) => {
+    res.render("register");
+})
+
+//handle sign up logic
+app.post("/register", (req, res) => {
+    res.send("Signing you in")
+});
 
 //start the server
 app.listen(3000, () => {
