@@ -125,8 +125,40 @@ app.get("/register", (req, res) => {
 
 //handle sign up logic
 app.post("/register", (req, res) => {
-    res.send("Signing you in")
+    const newUser = new User({username: req.body.username});
+    User.register(newUser, req.body.password, (err, user) => {
+        if (err) {
+            console.log(err);
+            return res.render("register")
+        }
+        passport.authenticate("local")(req, res, ()=> {
+           res.redirect("/beaches");
+        });
+    });
 });
+
+
+// LOGIN ROUTES
+//render login form
+app.get("/login", (req, res) => {
+    res.render("login");
+
+})
+
+//login logic
+app.post("/login", passport.authenticate("local", {
+    successRedirect: "/beaches",
+    failureRedirect: "/login"
+}), (req, res) => {
+    console.log("you've made it!")
+});
+
+//logout logic
+app.get("/logout", (req, res) => {
+    req.logout();
+    res.rendirect("/", {message: "You've been logged out...Not YET!! =["})
+});
+
 
 //start the server
 app.listen(3000, () => {
