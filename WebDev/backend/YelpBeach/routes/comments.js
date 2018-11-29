@@ -1,12 +1,12 @@
 const express = require("express"),
-      router  = express.Router();
+      router  = express.Router({mergeParams: true});
 
 const Beach   = require("./../models/beach"),
       Comment = require("./../models/comment");
       
 
 
-      //middleware to check logged/unlogged
+//middleware to check logged/unlogged
 const isLoggedIn = (req, res, next) => {
     if(req.isAuthenticated()){
        return next();
@@ -14,11 +14,8 @@ const isLoggedIn = (req, res, next) => {
     res.redirect("/login");
 }
       
-
-//       COMMENTS ROUTES
-//========================================
-
-router.get("/beaches/:id/comments/new", isLoggedIn, (req, res) =>{
+//show form to create new
+router.get("new", isLoggedIn, (req, res) =>{
     //find beach by id 
     Beach.findById(req.params.id, function(err, foundBeach) {
         if (err) {
@@ -29,7 +26,8 @@ router.get("/beaches/:id/comments/new", isLoggedIn, (req, res) =>{
     })
 });
 
-router.post("/beaches/:id/comments", isLoggedIn, (req, res) =>{ 
+//comments create
+router.post("/", isLoggedIn, (req, res) =>{ 
     Beach.findById(req.params.id, function(err, foundBeach) {
         if (err) {
             console.log(err);

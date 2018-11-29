@@ -1,5 +1,8 @@
 const express = require("express"),
-      router  = express.Router();
+      router  = express.Router(),
+      passport = require("passport");
+
+const User = require("./../models/user");      
 
 //middleware to check logged/unlogged
 const isLoggedIn = (req, res, next) => {
@@ -9,16 +12,13 @@ const isLoggedIn = (req, res, next) => {
     res.redirect("/login");
 }
 
-
+//route 
 router.get("/", function(req, res) {
     res.render("landing");
 })    
 
 
-//================================
 //AUTH ROUTES
-//================================
-
 //show register form
 router.get("/register", (req, res) => {
     res.render("register");

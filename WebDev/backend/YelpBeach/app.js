@@ -6,11 +6,7 @@ const mongoose = require("mongoose"),
 
 const User    = require("./models/user"),
       Beach   = require("./models/beach"),
-      Comment = require("./models/comment");
-
-const commentRoutes = require("./routes/comments"),
-      beachRoutes   = require("./routes/beaches"),
-      indexRoutes   = require("./routes/index");      
+      Comment = require("./models/comment");   
 
 const app = express();
 
@@ -43,8 +39,15 @@ app.use((req, res, next)=> {
 });
 
 
+const commentRoutes = require("./routes/comments");
+app.use("/beaches/:id/comments", commentRoutes);
+
+const beachRoutes   = require("./routes/beaches");
+app.use("/beaches", beachRoutes);
+
+const indexRoutes   = require("./routes/index");   
 app.use(indexRoutes);
-app.use(Beach)
+
 
 //start the server
 app.listen(3000, () => {
