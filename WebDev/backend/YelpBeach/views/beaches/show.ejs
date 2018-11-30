@@ -19,6 +19,9 @@
              <h4 class="pull-right">some useful info</h4>
              <h2> <a><%=theBeach.name%></a></h2>
              <p><%=theBeach.description%></p>
+             <p>
+                 <em>Submitted by </em><%=theBeach.author.username%>
+              </p>
           </div>
        </div>  <!-- end of thumbnail div-->
 
@@ -30,7 +33,7 @@
          <%theBeach.comments.forEach( (comment) => { %>
             <div class="row">
               <div class="col-md-12">
-                <p><strong><%= comment.author %></strong></p>
+                <p><strong><%= comment.author.username %></strong></p>
                 <span class="pull-right"> X days ago </span>
                   <p><%= comment.text %></p>
               </div> 

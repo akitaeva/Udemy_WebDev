@@ -15,9 +15,9 @@ const isLoggedIn = (req, res, next) => {
 }
       
 //show form to create new
-router.get("new", isLoggedIn, (req, res) =>{
+router.get("/new", isLoggedIn, (req, res) =>{
     //find beach by id 
-    Beach.findById(req.params.id, function(err, foundBeach) {
+    Beach.findById(req.params.id, (err, foundBeach) => {
         if (err) {
             console.log(err);
         } else {
@@ -28,7 +28,7 @@ router.get("new", isLoggedIn, (req, res) =>{
 
 //comments create
 router.post("/", isLoggedIn, (req, res) =>{ 
-    Beach.findById(req.params.id, function(err, foundBeach) {
+    Beach.findById(req.params.id, (err, foundBeach) =>{
         if (err) {
             console.log(err);
         } else  {
@@ -36,6 +36,12 @@ router.post("/", isLoggedIn, (req, res) =>{
                 if (err) {
                     console.log(err);
                 } else  {
+                    //add username and user id to the comment
+                    comment.author.id = req.user._id;
+                    comment.author.username = req.user.username;
+                    console.log("who left the comment ?  + ", req.user.username)
+                    //save the comment
+                    comment.save();
                     foundBeach.comments.push(comment);
                     foundBeach.save();
                     res.redirect("/beaches/" + foundBeach._id);

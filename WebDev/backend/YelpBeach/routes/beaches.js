@@ -3,6 +3,14 @@ const express = require("express"),
 
 const Beach   = require("./../models/beach")      
 
+//middleware to check logged/unlogged
+const isLoggedIn = (req, res, next) => {
+    if(req.isAuthenticated()){
+       return next();
+    }
+    res.redirect("/login");
+}
+  
 
 //index route
 router.get("/", (req,res) =>  {
@@ -19,9 +27,15 @@ router.get("/", (req,res) =>  {
 })  
 
 //creating new entry
-router.post("/", (req,res) => {
+router.post("/", isLoggedIn, (req,res) => {
+    //creating an author object from the logged in user
+    const author = {
+        id: req.user_id,
+        username: req.user.username
+    }
     ///Taking the entry data from the form
-    let newBeach = { name: req.body.name, image: req.body.image, description: req.body.description, }
+    const newBeach = { name: req.body.name, image: req.body.image, description: req.body.description, author: author }
+ 
     //Create a new beach entry and save to the DB
     Beach.create(newBeach, (err, newlyCreated) => {
       if(err) {
@@ -33,8 +47,8 @@ router.post("/", (req,res) => {
 
 })
 
-//show a form for a new beach entry
-router.get("/new", (req,res) => {
+//NEW - show a form for a new beach entry
+router.get("/new", isLoggedIn, (req,res) => {
     res.render("beaches/new");
 })
 
