@@ -66,6 +66,17 @@ router.get("/:id/edit", (req,res) => {
     
 });
 
+//UPDATE - send captured data to the server
+router.put("/:id", (req, res) => {
+    Beach.findByIdAndUpdate(req.params.id, req.body.Beach, (err, updBeach) => {
+        if (err) {
+            res.redirect("/beaches");
+        } else {
+            res.redirect("/beaches/" + req.params.id);
+        } 
+    })
+})
+
 //SHOW - details about a specific beach - find by id and render the template
 router.get("/:id", (req,res) => {
     //find the beach by the provided id
