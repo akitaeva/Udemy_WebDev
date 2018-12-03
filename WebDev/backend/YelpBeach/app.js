@@ -2,7 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose"),
       passport = require("passport"),
-      LocalStrategy = require("passport-local");
+      LocalStrategy = require("passport-local"),
+      methodOverride = require("method-override");
 
 const User    = require("./models/user"),
       Beach   = require("./models/beach"),
@@ -17,6 +18,7 @@ mongoose.connect("mongodb://localhost/yelp-beach", { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 
 //PASSPORT CONFIGURATION
 app.use(require("express-session")({

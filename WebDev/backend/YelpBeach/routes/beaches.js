@@ -1,5 +1,5 @@
 const express = require("express"),
-      router  = express.Router();
+      router  = express.Router({mergeParams: true});
 
 const Beach   = require("./../models/beach")      
 
@@ -51,6 +51,20 @@ router.post("/", isLoggedIn, (req,res) => {
 router.get("/new", isLoggedIn, (req,res) => {
     res.render("beaches/new");
 })
+
+//EDIT - show a form to edit a beach entry
+router.get("/:id/edit", (req,res) => {
+     Beach.findById(req.params.id, (err, foundBeach) => {
+         if (err) {
+             console.log(err);
+             res.redirect("/beaches")
+            }
+        else {
+            res.render("beaches/edit", {theBeach: foundBeach});
+        }    
+     })
+    
+});
 
 //SHOW - details about a specific beach - find by id and render the template
 router.get("/:id", (req,res) => {
