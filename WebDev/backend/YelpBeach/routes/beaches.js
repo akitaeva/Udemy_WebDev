@@ -77,6 +77,17 @@ router.put("/:id", (req, res) => {
     })
 })
 
+//DESTROY - remove an entry
+router.delete("/:id", (req, res) => {
+    Beach.findOneAndDelete(req.params.id, (err) => {
+        if (err) {
+            res.redirect("/beaches");
+        } else {
+            res.redirect("/beaches");
+        }
+    })
+})
+
 //SHOW - details about a specific beach - find by id and render the template
 router.get("/:id", (req,res) => {
     //find the beach by the provided id
