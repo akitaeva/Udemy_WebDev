@@ -15,7 +15,7 @@ const beachSchema = new mongoose.Schema ({
     },
     comments: [
         {
-            type:mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Comment"
         }
     ]

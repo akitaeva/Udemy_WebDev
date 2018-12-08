@@ -39,7 +39,6 @@ router.post("/", isLoggedIn, (req, res) =>{
                     //add username and user id to the comment
                     comment.author.id = req.user._id;
                     comment.author.username = req.user.username;
-                    console.log("who left the comment ?  + ", req.user.username)
                     //save the comment
                     comment.save();
                     foundBeach.comments.push(comment);
@@ -50,5 +49,10 @@ router.post("/", isLoggedIn, (req, res) =>{
            }       
         })    
 })
+
+//edit a comment 
+router.get("/:comment_id/edit", (req, res) => {
+   res.send("edit route for the comment!")
+}); 
 
 module.exports = router;
