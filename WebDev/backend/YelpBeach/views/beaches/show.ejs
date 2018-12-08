@@ -24,7 +24,7 @@
               </p>
               <% if(currentUser && theBeach.author.id.equals(currentUser._id)){ %>
               <a class="btn btn-xs btn-warning" href="/beaches/<%= theBeach._id %>/edit">Edit</a>
-              <form id="delete-form" action="/beaches/<%=theBeach._id %>?_method=DELETE" method="POST">
+              <form class="delete-form" action="/beaches/<%=theBeach._id %>?_method=DELETE" method="POST">
                 <button class="btn btn-xs btn-danger">Delete</button>
               </form>
               <% } %>
@@ -44,13 +44,13 @@
                   <p><%= comment.text %></p>
                   <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
                   <a class="btn btn-xs btn-warning" href="/beaches/<%= theBeach._id%>/comments/<%=comment._id %>/edit">Edit</a>
-                  <form id="delete-form" action="/beaches/<%=theBeach._id%>/comments/<%=comment._id %>?_method=DELETE" method="POST">
+                  <form class="delete-form" action="/beaches/<%=theBeach._id%>/comments/<%=comment._id %>?_method=DELETE" method="POST">
                   <button class="btn btn-xs btn-danger">Delete</button>
                   </form>
                   <% } %>
               </div> 
             </div> <!-- end of row div -->
-
+            <hr>
             <% } ) %>
 
        </div>  <!-- end of well div-->

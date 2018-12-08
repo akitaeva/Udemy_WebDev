@@ -13,6 +13,28 @@ const isLoggedIn = (req, res, next) => {
     }
     res.redirect("/login");
 }
+
+//middleware to check comment ownership
+const isCommentOwner = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        Comment.findById(req.params.comment_id, (err, foundComment) => {
+            if (err) {
+                console.log(err);
+                res.redirect("back")
+               }
+            else {
+            // checking if the user owns the comment
+              if (foundComment.author.id.equals(req.user._id)) {
+                  next();
+                } else {
+                 res.redirect("back")
+               }
+           }    
+        })  
+    } else {
+        res.redirect("back")
+    }
+}
       
 //show form to create new
 router.get("/new", isLoggedIn, (req, res) =>{
@@ -51,7 +73,7 @@ router.post("/", isLoggedIn, (req, res) =>{
 })
 
 //edit a comment - render the prefilled form
-router.get("/:comment_id/edit", (req, res) => {
+router.get("/:comment_id/edit", isCommentOwner, (req, res) => {
     Comment.findById(req.params.comment_id, (err, foundComment) => {
       if(err) {
           res.redirect("back")
@@ -63,7 +85,7 @@ router.get("/:comment_id/edit", (req, res) => {
 }); 
 
 //update the comment
-router.put("/:comment_id", (req, res) => {
+router.put("/:comment_id", isCommentOwner, (req, res) => {
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, updatedComment) => {
         if(err) {
             res.redirect("back");
@@ -73,4 +95,17 @@ router.put("/:comment_id", (req, res) => {
     })
 })
 
-module.exports = router;
+
+//destroy the comment
+router.delete("/:comment_id/", isCommentOwner, (req, res) => {
+    Comment.findByIdAndDelete(req.params.comment_id, (err) => {
+        if (err) {
+            res.redirect("back");  
+        } else {
+            res.redirect("/beaches/" + req.params.id);
+        }
+    })
+})
+
+
+module.exports = router;    
