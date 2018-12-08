@@ -50,9 +50,27 @@ router.post("/", isLoggedIn, (req, res) =>{
         })    
 })
 
-//edit a comment 
+//edit a comment - render the prefilled form
 router.get("/:comment_id/edit", (req, res) => {
-   res.send("edit route for the comment!")
+    Comment.findById(req.params.comment_id, (err, foundComment) => {
+      if(err) {
+          res.redirect("back")
+      } else {
+        res.render("comments/edit", {theBeach_id: req.params.id, comment: foundComment} )
+      }
+    });
+
 }); 
+
+//update the comment
+router.put("/:comment_id", (req, res) => {
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, updatedComment) => {
+        if(err) {
+            res.redirect("back");
+        } else {
+            res.redirect("/beaches/" + req.params.id);
+        }
+    })
+})
 
 module.exports = router;
