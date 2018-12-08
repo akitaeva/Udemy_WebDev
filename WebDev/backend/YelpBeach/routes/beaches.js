@@ -3,14 +3,35 @@ const express = require("express"),
 
 const Beach   = require("./../models/beach")      
 
-//middleware to check logged/unlogged
+//middleware to check logged in or not 
 const isLoggedIn = (req, res, next) => {
     if(req.isAuthenticated()){
        return next();
     }
     res.redirect("/login");
 }
-  
+
+//middleware to check entry ownership
+const isEntryOwner = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        Beach.findById(req.params.id, (err, foundBeach) => {
+            if (err) {
+                console.log(err);
+                res.redirect("back")
+               }
+            else {
+            // checking if the user owns the entry
+              if (foundBeach.author.id.equals(req.user._id)) {
+                  next();
+                } else {
+                 res.redirect("back")
+               }
+           }    
+        })  
+    } else {
+        res.redirect("back")
+    }
+}
 
 //index route
 router.get("/", (req,res) =>  {
@@ -30,12 +51,11 @@ router.get("/", (req,res) =>  {
 router.post("/", isLoggedIn, (req,res) => {
     //creating an author object from the logged in user
     const author = {
-        id: req.user_id,
+        id: req.user._id,
         username: req.user.username
     }
     ///Taking the entry data from the form
     const newBeach = { name: req.body.name, image: req.body.image, description: req.body.description, author: author }
- 
     //Create a new beach entry and save to the DB
     Beach.create(newBeach, (err, newlyCreated) => {
       if(err) {
@@ -53,17 +73,10 @@ router.get("/new", isLoggedIn, (req,res) => {
 })
 
 //EDIT - show a form to edit a beach entry
-router.get("/:id/edit", (req,res) => {
+router.get("/:id/edit", isEntryOwner, (req,res) => {
      Beach.findById(req.params.id, (err, foundBeach) => {
-         if (err) {
-             console.log(err);
-             res.redirect("/beaches")
-            }
-        else {
-            res.render("beaches/edit", {theBeach: foundBeach});
-        }    
-     })
-    
+                  res.render("beaches/edit", {theBeach: foundBeach});
+    });          
 });
 
 //UPDATE - send captured data to the server
