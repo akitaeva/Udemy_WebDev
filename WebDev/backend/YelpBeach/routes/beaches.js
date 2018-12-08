@@ -80,7 +80,7 @@ router.get("/:id/edit", isEntryOwner, (req,res) => {
 });
 
 //UPDATE - send captured data to the server
-router.put("/:id", (req, res) => {
+router.put("/:id", isEntryOwner, (req, res) => {
     Beach.findByIdAndUpdate(req.params.id, req.body.Beach, (err, updBeach) => {
         if (err) {
             res.redirect("/beaches");
@@ -91,7 +91,7 @@ router.put("/:id", (req, res) => {
 })
 
 //DESTROY - remove an entry
-router.delete("/:id", (req, res) => {
+router.delete("/:id", isEntryOwner, (req, res) => {
     Beach.findOneAndDelete(req.params.id, (err) => {
         if (err) {
             res.redirect("/beaches");

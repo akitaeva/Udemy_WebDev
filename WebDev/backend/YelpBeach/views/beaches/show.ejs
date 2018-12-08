@@ -22,10 +22,12 @@
              <p>
                  <em>Submitted by </em><%=theBeach.author.username%>
               </p>
+              <% if(currentUser && theBeach.author.id.equals(currentUser._id)){ %>
               <a class="btn btn-xs btn-warning" href="/beaches/<%= theBeach._id %>/edit">Edit</a>
               <form id="delete-form" action="/beaches/<%=theBeach._id %>?_method=DELETE" method="POST">
                 <button class="btn btn-xs btn-danger">Delete</button>
               </form>
+              <% } %>
           </div>
        </div>  <!-- end of thumbnail div-->
 
