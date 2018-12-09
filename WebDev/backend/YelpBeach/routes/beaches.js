@@ -1,37 +1,10 @@
-const express = require("express"),
-      router  = express.Router({mergeParams: true});
+const express     = require("express"),
+      router      = express.Router({mergeParams: true});
 
-const Beach   = require("./../models/beach")      
+const middleware  = require("../middleware");      
 
-//middleware to check logged in or not 
-const isLoggedIn = (req, res, next) => {
-    if(req.isAuthenticated()){
-       return next();
-    }
-    res.redirect("/login");
-}
+const Beach       = require("./../models/beach");      
 
-//middleware to check entry ownership
-const isEntryOwner = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        Beach.findById(req.params.id, (err, foundBeach) => {
-            if (err) {
-                console.log(err);
-                res.redirect("back")
-               }
-            else {
-            // checking if the user owns the entry
-              if (foundBeach.author.id.equals(req.user._id)) {
-                  next();
-                } else {
-                 res.redirect("back")
-               }
-           }    
-        })  
-    } else {
-        res.redirect("back")
-    }
-}
 
 //index route
 router.get("/", (req,res) =>  {
@@ -48,7 +21,7 @@ router.get("/", (req,res) =>  {
 })  
 
 //creating new entry
-router.post("/", isLoggedIn, (req,res) => {
+router.post("/", middleware.isLoggedIn, (req,res) => {
     //creating an author object from the logged in user
     const author = {
         id: req.user._id,
@@ -68,19 +41,19 @@ router.post("/", isLoggedIn, (req,res) => {
 })
 
 //NEW - show a form for a new beach entry
-router.get("/new", isLoggedIn, (req,res) => {
+router.get("/new", middleware.isLoggedIn, (req,res) => {
     res.render("beaches/new");
 })
 
 //EDIT - show a form to edit a beach entry
-router.get("/:id/edit", isEntryOwner, (req,res) => {
+router.get("/:id/edit", middleware.isEntryOwner, (req,res) => {
      Beach.findById(req.params.id, (err, foundBeach) => {
                   res.render("beaches/edit", {theBeach: foundBeach});
     });          
 });
 
 //UPDATE - send captured data to the server
-router.put("/:id", isEntryOwner, (req, res) => {
+router.put("/:id", middleware.isEntryOwner, (req, res) => {
     Beach.findByIdAndUpdate(req.params.id, req.body.Beach, (err, updBeach) => {
         if (err) {
             res.redirect("/beaches");
@@ -91,7 +64,7 @@ router.put("/:id", isEntryOwner, (req, res) => {
 })
 
 //DESTROY - remove an entry
-router.delete("/:id", isEntryOwner, (req, res) => {
+router.delete("/:id", middleware.isEntryOwner, (req, res) => {
     Beach.findOneAndDelete(req.params.id, (err) => {
         if (err) {
             res.redirect("/beaches");
