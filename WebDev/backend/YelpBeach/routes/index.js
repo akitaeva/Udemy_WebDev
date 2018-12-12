@@ -1,18 +1,11 @@
-const express = require("express"),
-      router  = express.Router(),
+const express  = require("express"),
+      router   = express.Router(),
       passport = require("passport");
 
 const User = require("./../models/user");      
 
-//middleware to check logged/unlogged
-const isLoggedIn = (req, res, next) => {
-    if(req.isAuthenticated()){
-       return next();
-    }
-    res.redirect("/login");
-}
 
-//route 
+//default route 
 router.get("/", function(req, res) {
     res.render("landing");
 })    
@@ -57,6 +50,7 @@ router.post("/login", passport.authenticate("local", {
 //logout logic
 router.get("/logout", (req, res) => {
     req.logout();
+    req.flash("success", "Successfully logged you out!")
     res.redirect("/")
 });
 

@@ -1,5 +1,7 @@
 const Beach       = require("./../models/beach"),
-      Comment     = require("./../models/comment");
+      Comment     = require("./../models/comment"),
+
+      flash       = require("connect-flash");
 
 //all the middleware goes here
 
@@ -10,6 +12,7 @@ middlewareObj.isLoggedIn = (req, res, next) => {
     if(req.isAuthenticated()){
        return next();
     }
+    req.flash("error", "Please log in first!");
     res.redirect("/login");
 }
 
