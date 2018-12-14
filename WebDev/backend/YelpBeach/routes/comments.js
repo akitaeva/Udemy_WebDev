@@ -24,10 +24,12 @@ router.post("/", middleware.isLoggedIn, (req, res) =>{
     Beach.findById(req.params.id, (err, foundBeach) =>{
         if (err) {
             console.log(err);
+            req.flash("error", "Error finding the entry")
         } else  {
             Comment.create(req.body.comment, (err, comment) =>{ 
                 if (err) {
                     console.log(err);
+                    req.flash("error", "Something went wrong")
                 } else  {
                     //add username and user id to the comment
                     comment.author.id = req.user._id;
@@ -36,6 +38,7 @@ router.post("/", middleware.isLoggedIn, (req, res) =>{
                     comment.save();
                     foundBeach.comments.push(comment);
                     foundBeach.save();
+                    req.flash("success", "Successfully added your comment")
                     res.redirect("/beaches/" + foundBeach._id);
                 }    
             })
@@ -71,8 +74,10 @@ router.put("/:comment_id", middleware.isCommentOwner, (req, res) => {
 router.delete("/:comment_id/", middleware.isCommentOwner, (req, res) => {
     Comment.findByIdAndDelete(req.params.comment_id, (err) => {
         if (err) {
+            req.flash("error", "Error finding the entry")
             res.redirect("back");  
         } else {
+            req.flash("success", "The comment has been successfully deleted")
             res.redirect("/beaches/" + req.params.id);
         }
     })

@@ -48,7 +48,12 @@ router.get("/new", middleware.isLoggedIn, (req,res) => {
 //EDIT - show a form to edit a beach entry
 router.get("/:id/edit", middleware.isEntryOwner, (req,res) => {
      Beach.findById(req.params.id, (err, foundBeach) => {
-                  res.render("beaches/edit", {theBeach: foundBeach});
+         if (err) {
+            req.flash("error", "Error finding the entry")
+            res.redirect("/beaches");
+         } else {
+            res.render("beaches/edit", {theBeach: foundBeach});
+         }
     });          
 });
 
@@ -56,6 +61,7 @@ router.get("/:id/edit", middleware.isEntryOwner, (req,res) => {
 router.put("/:id", middleware.isEntryOwner, (req, res) => {
     Beach.findByIdAndUpdate(req.params.id, req.body.Beach, (err, updBeach) => {
         if (err) {
+            req.flash("error", "Error updating the entry")
             res.redirect("/beaches");
         } else {
             res.redirect("/beaches/" + req.params.id);
@@ -67,8 +73,10 @@ router.put("/:id", middleware.isEntryOwner, (req, res) => {
 router.delete("/:id", middleware.isEntryOwner, (req, res) => {
     Beach.findOneAndDelete(req.params.id, (err) => {
         if (err) {
+            req.flash("error", "Error deleting the entry")
             res.redirect("/beaches");
         } else {
+            req.flash("success", "The entry has been successfully deleted")
             res.redirect("/beaches");
         }
     })

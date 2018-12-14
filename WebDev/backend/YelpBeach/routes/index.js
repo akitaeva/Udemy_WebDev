@@ -22,10 +22,11 @@ router.post("/register", (req, res) => {
     const newUser = new User({username: req.body.username});
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
-            console.log(err);
-            return res.render("register")
+            req.flash("error", err.message);
+            res.redirect("register")
         }
         passport.authenticate("local")(req, res, ()=> {
+           req.flash("success", "Welcome to Yelp Beach " + user.username)
            res.redirect("/beaches");
         });
     });
@@ -44,7 +45,7 @@ router.post("/login", passport.authenticate("local", {
     successRedirect: "/beaches",
     failureRedirect: "/login"
 }), (req, res) => {
-    console.log("you've made it!")
+    console.log("you've made it!", res)
 });
 
 //logout logic
