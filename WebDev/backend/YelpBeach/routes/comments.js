@@ -39,7 +39,7 @@ router.post("/", middleware.isLoggedIn, (req, res) =>{
                     foundBeach.comments.push(comment);
                     foundBeach.save();
                     req.flash("success", "Successfully added your comment")
-                    res.redirect("/beaches/" + foundBeach._id);
+                    return res.redirect("/beaches/" + foundBeach._id);
                 }    
             })
            }       
@@ -48,12 +48,19 @@ router.post("/", middleware.isLoggedIn, (req, res) =>{
 
 //edit a comment - render the prefilled form
 router.get("/:comment_id/edit", middleware.isCommentOwner, (req, res) => {
-    Comment.findById(req.params.comment_id, (err, foundComment) => {
-      if(err) {
-          res.redirect("back")
-      } else {
-        res.render("comments/edit", {theBeach_id: req.params.id, comment: foundComment} )
-      }
+    Beach.findById(req.params.id, (err, foundBeach) => {
+        if(err || !foundBeach) {
+            req.flash("error", "Error finding the entry")  
+            return res.redirect("back")
+        } else {
+          Comment.findById(req.params.comment_id, (err, foundComment) => {
+            if(err) {
+               res.redirect("back")
+            } else {
+               res.render("comments/edit", {theBeach_id: req.params.id, comment: foundComment} )
+            }
+          });
+        }
     });
 
 }); 

@@ -20,7 +20,7 @@ middlewareObj.isLoggedIn = (req, res, next) => {
 middlewareObj.isEntryOwner = (req, res, next) => {
     if (req.isAuthenticated()) {
         Beach.findById(req.params.id, (err, foundBeach) => {
-            if (err) {
+            if (err || !foundBeach ) {
                 console.log(err);
                 req.flash("error", "Error finding the entry")
                 res.redirect("back")
@@ -45,7 +45,7 @@ middlewareObj.isEntryOwner = (req, res, next) => {
 middlewareObj.isCommentOwner = (req, res, next) => {
     if (req.isAuthenticated()) {
         Comment.findById(req.params.comment_id, (err, foundComment) => {
-            if (err) {
+            if (err || !foundComment) {
                 console.log(err);
                 req.flash("error", "Error finding the comment")  
                 res.redirect("back")

@@ -88,8 +88,10 @@ router.get("/:id", (req,res) => {
     Beach.findById(req.params.id)
     .populate("comments")
     .exec((err, foundBeach)=> {
-       if (err) {
-           console.log(err);
+       if (err || !foundBeach) {
+            console.log(err);
+            req.flash("error", "Error finding the entry")
+            res.redirect("back")       
        } else {
         res.render("beaches/show", {theBeach: foundBeach});
        }
