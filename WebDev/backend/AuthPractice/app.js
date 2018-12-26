@@ -88,7 +88,7 @@ app.post("/login", passport.authenticate("local", {
     console.log("you've made it!")
 });
 
-//login logic
+//logout logic
 app.get("/logout", (req, res) => {
     req.logout();
     res.rendirect("/", {message: "You've been logged out...Not YET!! =["})
